@@ -1,0 +1,206 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\f0\fs24\lang9 mysql> use  sampletable;\par
+\fs22 Database changed\par
+mysql> select * from Officers;\par
++----+---------+---------+\par
+| id | Name    | Address |\par
++----+---------+---------+\par
+|  1 | Koushik | Dankuni |\par
+|  2 | Faizal  | Patna   |\par
+|  3 | Ananyal | Maldha  |\par
+|  4 | Ashoke  | Bankura |\par
++----+---------+---------+\par
+4 rows in set (0.05 sec)\par
+\par
+mysql> select * from Students;\par
++----+-----------+-------------+\par
+| id | Name      | Course_Name |\par
++----+-----------+-------------+\par
+|  1 | Ashoke    | JAVA        |\par
+|  3 | Kamalendu | JAVAWEBDEV  |\par
+|  5 | Jhon      | DOTNET      |\par
+|  7 | Rambo     | PYTHON      |\par
++----+-----------+-------------+\par
+4 rows in set (0.00 sec)\par
+\par
+mysql> select Officers.Name, Officers.Address, Students.Name from Officers INNER JOIN Students ON Officers.id = Students.id;\par
++---------+---------+-----------+\par
+| Name    | Address | Name      |\par
++---------+---------+-----------+\par
+| Koushik | Dankuni | Ashoke    |\par
+| Ananyal | Maldha  | Kamalendu |\par
++---------+---------+-----------+\par
+2 rows in set (0.00 sec)\par
+\par
+mysql> select Officers.Name, Officers.Address, Students.Course_Name from Officers LEFT JOIN Students ON Officers.id = Students.id;\par
++---------+---------+-------------+\par
+| Name    | Address | Course_Name |\par
++---------+---------+-------------+\par
+| Koushik | Dankuni | JAVA        |\par
+| Faizal  | Patna   | NULL        |\par
+| Ananyal | Maldha  | JAVAWEBDEV  |\par
+| Ashoke  | Bankura | NULL        |\par
++---------+---------+-------------+\par
+4 rows in set (0.04 sec)\par
+\par
+mysql> select Officers.Name, Officers.Address, Students.Name, Student.Course_Name from Officers RIGHT JOIN Students ON Officers.id = Students.id;\par
+ERROR 1054 (42S22): Unknown column 'Student.Course_Name' in 'field list'\par
+mysql> select Officers.Name, Officers.Address, Students.Name, Students.Course_Name from Officers RIGHT JOIN Students ON Officers.id = Students.id;\par
++---------+---------+-----------+-------------+\par
+| Name    | Address | Name      | Course_Name |\par
++---------+---------+-----------+-------------+\par
+| Koushik | Dankuni | Ashoke    | JAVA        |\par
+| Ananyal | Maldha  | Kamalendu | JAVAWEBDEV  |\par
+| NULL    | NULL    | Jhon      | DOTNET      |\par
+| NULL    | NULL    | Rambo     | PYTHON      |\par
++---------+---------+-----------+-------------+\par
+4 rows in set (0.00 sec)\par
+\par
+mysql> select Officers.id, Officers.Name, Officers.Address, Students.id, Students.Name, Students.Course_Name from Officers INNER JOIN Students ON Officers.id = Students.id;\par
++----+---------+---------+----+-----------+-------------+\par
+| id | Name    | Address | id | Name      | Course_Name |\par
++----+---------+---------+----+-----------+-------------+\par
+|  1 | Koushik | Dankuni |  1 | Ashoke    | JAVA        |\par
+|  3 | Ananyal | Maldha  |  3 | Kamalendu | JAVAWEBDEV  |\par
++----+---------+---------+----+-----------+-------------+\par
+2 rows in set (0.00 sec)\par
+\par
+mysql> select Officers.id, Officers.Name, Officers.Address, Students.id, Students.Name, Students.Course_Name from Officers CROSS JOIN Students ;\par
++----+---------+---------+----+-----------+-------------+\par
+| id | Name    | Address | id | Name      | Course_Name |\par
++----+---------+---------+----+-----------+-------------+\par
+|  4 | Ashoke  | Bankura |  1 | Ashoke    | JAVA        |\par
+|  3 | Ananyal | Maldha  |  1 | Ashoke    | JAVA        |\par
+|  2 | Faizal  | Patna   |  1 | Ashoke    | JAVA        |\par
+|  1 | Koushik | Dankuni |  1 | Ashoke    | JAVA        |\par
+|  4 | Ashoke  | Bankura |  3 | Kamalendu | JAVAWEBDEV  |\par
+|  3 | Ananyal | Maldha  |  3 | Kamalendu | JAVAWEBDEV  |\par
+|  2 | Faizal  | Patna   |  3 | Kamalendu | JAVAWEBDEV  |\par
+|  1 | Koushik | Dankuni |  3 | Kamalendu | JAVAWEBDEV  |\par
+|  4 | Ashoke  | Bankura |  5 | Jhon      | DOTNET      |\par
+|  3 | Ananyal | Maldha  |  5 | Jhon      | DOTNET      |\par
+|  2 | Faizal  | Patna   |  5 | Jhon      | DOTNET      |\par
+|  1 | Koushik | Dankuni |  5 | Jhon      | DOTNET      |\par
+|  4 | Ashoke  | Bankura |  7 | Rambo     | PYTHON      |\par
+|  3 | Ananyal | Maldha  |  7 | Rambo     | PYTHON      |\par
+|  2 | Faizal  | Patna   |  7 | Rambo     | PYTHON      |\par
+|  1 | Koushik | Dankuni |  7 | Rambo     | PYTHON      |\par
++----+---------+---------+----+-----------+-------------+\par
+16 rows in set (0.00 sec)\par
+\par
+mysql> Select Address, count (*) from Officers Group By Address;\par
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '*) from Officers Group By Address' at line 1\par
+mysql> select Address, count(*) from Officers group by Address;\par
++---------+----------+\par
+| Address | count(*) |\par
++---------+----------+\par
+| Dankuni |        1 |\par
+| Patna   |        1 |\par
+| Maldha  |        1 |\par
+| Bankura |        1 |\par
++---------+----------+\par
+4 rows in set (0.04 sec)\par
+\par
+mysql> alter table Officers add column Working_hours int(10);\par
+Query OK, 0 rows affected, 1 warning (1.91 sec)\par
+Records: 0  Duplicates: 0  Warnings: 1\par
+\par
+mysql> Select * from Officers;\par
++----+---------+---------+---------------+\par
+| id | Name    | Address | Working_hours |\par
++----+---------+---------+---------------+\par
+|  1 | Koushik | Dankuni |          NULL |\par
+|  2 | Faizal  | Patna   |          NULL |\par
+|  3 | Ananyal | Maldha  |          NULL |\par
+|  4 | Ashoke  | Bankura |          NULL |\par
++----+---------+---------+---------------+\par
+4 rows in set (0.00 sec)\par
+\par
+mysql> update Officers set Working_hours = '9' where id = 1;\par
+Query OK, 1 row affected (0.08 sec)\par
+Rows matched: 1  Changed: 1  Warnings: 0\par
+\par
+mysql> update Officers set Working_hours = '10' where id = 2;\par
+Query OK, 1 row affected (0.12 sec)\par
+Rows matched: 1  Changed: 1  Warnings: 0\par
+\par
+mysql> update Officers set Working_hours = '8' where id = 3;\par
+Query OK, 1 row affected (0.11 sec)\par
+Rows matched: 1  Changed: 1  Warnings: 0\par
+\par
+mysql> update Officers set Working_hours = '8' where id = 4;\par
+Query OK, 1 row affected (0.10 sec)\par
+Rows matched: 1  Changed: 1  Warnings: 0\par
+\par
+mysql>\par
+mysql> select * from Officers;\par
++----+---------+---------+---------------+\par
+| id | Name    | Address | Working_hours |\par
++----+---------+---------+---------------+\par
+|  1 | Koushik | Dankuni |             9 |\par
+|  2 | Faizal  | Patna   |            10 |\par
+|  3 | Ananyal | Maldha  |             8 |\par
+|  4 | Ashoke  | Bankura |             8 |\par
++----+---------+---------+---------------+\par
+4 rows in set (0.00 sec)\par
+\par
+mysql> select Name, sum(Working_hours) as "Total Working_hours" from Officers gruop by Name;\par
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'by Name' at line 1\par
+mysql> select Name, sum(Working_hours) as "Total Working_hours" from Officers group by Name;\par
++---------+---------------------+\par
+| Name    | Total Working_hours |\par
++---------+---------------------+\par
+| Koushik |                   9 |\par
+| Faizal  |                  10 |\par
+| Ananyal |                   8 |\par
+| Ashoke  |                   8 |\par
++---------+---------------------+\par
+4 rows in set (0.00 sec)\par
+\par
+mysql> select Name, min(Working_hours) as "Total Working_hours" from Officers group by Name;\par
++---------+---------------------+\par
+| Name    | Total Working_hours |\par
++---------+---------------------+\par
+| Koushik |                   9 |\par
+| Faizal  |                  10 |\par
+| Ananyal |                   8 |\par
+| Ashoke  |                   8 |\par
++---------+---------------------+\par
+4 rows in set (0.04 sec)\par
+\par
+mysql> select Name, max(Working_hours) as "Total Working_hours" from Officers group by Name;\par
++---------+---------------------+\par
+| Name    | Total Working_hours |\par
++---------+---------------------+\par
+| Koushik |                   9 |\par
+| Faizal  |                  10 |\par
+| Ananyal |                   8 |\par
+| Ashoke  |                   8 |\par
++---------+---------------------+\par
+4 rows in set (0.00 sec)\par
+\par
+mysql> select Name, avg(Working_hours) as "Total Working_hours" from Officers group by Name;\par
++---------+---------------------+\par
+| Name    | Total Working_hours |\par
++---------+---------------------+\par
+| Koushik |              9.0000 |\par
+| Faizal  |             10.0000 |\par
+| Ananyal |              8.0000 |\par
+| Ashoke  |              8.0000 |\par
++---------+---------------------+\par
+4 rows in set (0.05 sec)\par
+\par
+mysql> select Name, sum(Working_hours) as "Total Working_hours" from Officers group by Name having sum(Working_hours)>8;\par
++---------+---------------------+\par
+| Name    | Total Working_hours |\par
++---------+---------------------+\par
+| Koushik |                   9 |\par
+| Faizal  |                  10 |\par
++---------+---------------------+\par
+2 rows in set (0.04 sec)\par
+\par
+mysql>\par
+\par
+}
+ 
